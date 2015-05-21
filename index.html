@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+
+  </head>
+  <body>
+    <ul>
+      <li>Red</li>
+      <li>Blue</li>
+      <li>Green</li>
+    </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+
+      $(document).ready(function(){
+        var randomColor = "rgb(" + rand() + "," + rand() + "," + rand() + ")";
+        socket.emit('color', randomColor);
+      });
+
+      function rand(){
+        return Math.floor(Math.random() * 255);
+      }
+
+
+      $('ul li').click(function(){
+        socket.emit('color', $(this).text());
+        //$('#m').val(''); //clear it now
+        return false;
+      });
+
+      socket.on('color', function(color){
+        //$('#messages').append($('<li>').text(msg));
+        console.log(color);
+        $('body').css("background", color);
+      });
+    </script>
+
+  </body>
+</html>
