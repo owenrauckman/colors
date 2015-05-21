@@ -1,12 +1,15 @@
 var app = require('express')();
 var http = require('http').Server(app);
 
-var server = require('http').createServer(app).listen(process.env.PORT || 8080);
+var server = require('http').createServer(app).listen(PORT);
 var io = require('socket.io').listen(server);
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
+
+io.set('transports', ['xhr-polling']);
+io.set('polling duration', 10);
 
 //connect and disconnect
 io.on('connection', function(socket){
